@@ -1,0 +1,124 @@
+/MANIFEST:NO
+/NOLOGO
+/DEBUG:FULL
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/FIXED:No
+/NXCOMPAT
+/STACK:12000000
+/DELAY:UNLOAD
+/DLL
+/PDBALTPATH:%_PDB%
+/d2:-ExtendedWarningInfo
+/OPT:NOREF
+/OPT:NOICF
+/INCREMENTAL:NO
+/ignore:4199
+/ignore:4099
+/ALTERNATENAME:__imp___std_init_once_begin_initialize=__imp_InitOnceBeginInitialize
+/ALTERNATENAME:__imp___std_init_once_complete=__imp_InitOnceComplete
+/DELAYLOAD:"d3d12.dll"
+/DELAYLOAD:"DBGHELP.DLL"
+/LIBPATH:"C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.38.33130/lib/x64"
+/LIBPATH:"C:/Program Files (x86)/Windows Kits/10/lib/10.0.22621.0/ucrt/x64"
+/LIBPATH:"C:/Program Files (x86)/Windows Kits/10/lib/10.0.22621.0/um/x64"
+/NODEFAULTLIB:"LIBCMT"
+/NODEFAULTLIB:"LIBCPMT"
+/NODEFAULTLIB:"LIBCMTD"
+/NODEFAULTLIB:"LIBCPMTD"
+/NODEFAULTLIB:"MSVCRTD"
+/NODEFAULTLIB:"MSVCPRTD"
+/NODEFAULTLIB:"LIBC"
+/NODEFAULTLIB:"LIBCP"
+/NODEFAULTLIB:"LIBCD"
+/NODEFAULTLIB:"LIBCPD"
+/FUNCTIONPADMIN:6
+/NOIMPLIB
+/NOEXP
+/NATVIS:"../Plugins/Runtime/StateTree/Intermediate/Build/Win64/x64/UnrealEditor/Development/StateTreeModule/StateTree.natvis"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/Narvik1940Editor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940CameraManager.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940Character.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940GameMode.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940PlayerController.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorCharacter.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorGameMode.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorPlayerController.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorUI.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterCharacter.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterGameMode.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterPlayerController.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/EnvQueryContext_Target.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterAIController.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterNPC.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterStateTreeUtility.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterBulletCounterUI.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterUI.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterPickup.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterProjectile.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterWeapon.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterWeaponHolder.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/PerModuleInline.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/EnvQueryContext_Target.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorCharacter.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorGameMode.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorPlayerController.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/HorrorUI.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940.init.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940CameraManager.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940Character.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940GameMode.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Narvik1940PlayerController.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterAIController.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterBulletCounterUI.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterCharacter.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterGameMode.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterNPC.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterPickup.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterPlayerController.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterProjectile.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterStateTreeUtility.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterUI.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterWeapon.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/ShooterWeaponHolder.gen.cpp.obj"
+"C:/UE HW/Narvik1940/Narvik1940/Intermediate/Build/Win64/x64/UnrealEditor/Development/Narvik1940/Default.rc2.res"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/Engine/UnrealEditor-Engine.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/AIModule/UnrealEditor-AIModule.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/UMG/UnrealEditor-UMG.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/Core/UnrealEditor-Core.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/CoreUObject/UnrealEditor-CoreUObject.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/InputCore/UnrealEditor-InputCore.lib"
+"../Plugins/EnhancedInput/Intermediate/Build/Win64/x64/UnrealEditor/Development/EnhancedInput/UnrealEditor-EnhancedInput.lib"
+"../Plugins/Runtime/StateTree/Intermediate/Build/Win64/x64/UnrealEditor/Development/StateTreeModule/UnrealEditor-StateTreeModule.lib"
+"../Plugins/Runtime/GameplayStateTree/Intermediate/Build/Win64/x64/UnrealEditor/Development/GameplayStateTreeModule/UnrealEditor-GameplayStateTreeModule.lib"
+"../Intermediate/Build/Win64/x64/UnrealEditor/Development/Slate/UnrealEditor-Slate.lib"
+"delayimp.lib"
+"wininet.lib"
+"rpcrt4.lib"
+"ws2_32.lib"
+"dbghelp.lib"
+"comctl32.lib"
+"Winmm.lib"
+"kernel32.lib"
+"user32.lib"
+"gdi32.lib"
+"winspool.lib"
+"comdlg32.lib"
+"advapi32.lib"
+"shell32.lib"
+"ole32.lib"
+"oleaut32.lib"
+"uuid.lib"
+"odbc32.lib"
+"odbccp32.lib"
+"netapi32.lib"
+"iphlpapi.lib"
+"setupapi.lib"
+"synchronization.lib"
+"dwmapi.lib"
+"imm32.lib"
+/OUT:"C:/UE HW/Narvik1940/Narvik1940/Binaries/Win64/UnrealEditor-Narvik1940.dll"
+/PDB:"C:/UE HW/Narvik1940/Narvik1940/Binaries/Win64/UnrealEditor-Narvik1940.pdb"
+/ignore:4078
