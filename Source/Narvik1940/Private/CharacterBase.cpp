@@ -42,7 +42,7 @@ void ACharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EIC->BindAction(IA_Move, ETriggerEvent::Triggered, this, &ACharacterBase::Move);
 		EIC->BindAction(IA_Look, ETriggerEvent::Triggered, this, &ACharacterBase::Look);
 		EIC->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ACharacterBase::Jump);
-		EIC->BindAction(IA_Jump, ETriggerEvent::Triggered, this, &ACharacterBase::StopJumping);
+		EIC->BindAction(IA_Jump, ETriggerEvent::Completed, this, &ACharacterBase::StopJumping);
 	}
 }
 
