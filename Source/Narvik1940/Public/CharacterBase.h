@@ -1,8 +1,8 @@
 ﻿// Copyright 2026. HyunJun. All rights reserved.
+#pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "InputActionValue.h"
 #include "CharacterBase.generated.h"
 
 class UInputAction;
@@ -15,34 +15,51 @@ public:
 	ACharacterBase();
 
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class UCameraComponent* FPSCamera;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mesh")
-	class USkeletalMeshComponent* ArmsMesh;
-
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float WalkSpeed = 500.f;
+
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float SprintSpeed = 700.f;
+
 	UPROPERTY(EditAnywhere, Category = "Movement")
 	float CrouchSpeed = 300.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* IA_Move;
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float HeadHP = 100.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* IA_Look;
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float ChestHP = 50.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	UInputAction* IA_Jump;
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float LeftArmHP = 40.0f;
+	
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float RightArmHP = 40.0f;
 
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float LeftLegHP = 30.0f;
+
+	UPROPERTY(EditAnywhere, Category = "Health")
+	float RightLegHP = 30.0f;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Status")
+	bool bLeftArmDisabled = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Status")
+	bool bRightArmDisabled = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Status")
+	bool bLeftLegDisabled = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Status")
+	bool bRightLegDisabled = false;
 
 	virtual void BeginPlay() override;
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void TakeDamageByPart(FName BodyPart, float Damage);
+
+	virtual void OnDead();
 };
