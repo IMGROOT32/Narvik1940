@@ -1,25 +1,38 @@
 ﻿//Copyright 2026. HyunJun.All rights reserved.
 #include "WeaponBase.h"
 
-// Sets default values
 AWeaponBase::AWeaponBase()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
+	RootComponent = WeaponMesh;
 
 }
 
-// Called when the game starts or when spawned
 void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentAmmo = MagazineSize;
 	
 }
 
-// Called every frame
-void AWeaponBase::Tick(float DeltaTime)
+void AWeaponBase::OnEquip()
 {
-	Super::Tick(DeltaTime);
+	WeaponMesh->SetVisibility(true);
+}
+
+void AWeaponBase::OnUnEquip()
+{
+	WeaponMesh->SetVisibility(false);
+}
+
+void AWeaponBase::Fire()
+{
 
 }
 
+void AWeaponBase::Reload()
+{
+
+}

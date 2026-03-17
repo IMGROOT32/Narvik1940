@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "CharacterBase.h"
+#include "WeaponBase.h"
 #include "InputActionValue.h"
 #include "PlayerCharacter.generated.h"
 
@@ -42,6 +43,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	float LookSensitivity = 20.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_Fire;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	bool bIsSprinting = false;
 
@@ -50,6 +54,21 @@ protected:
 
 	UPROPERTY(BluePrintReadOnly, Category = "Anim")
 	bool bIsInAir = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	AWeaponBase* PrimaryWeapon;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	AWeaponBase* SecondaryWeapon;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
+	AWeaponBase* CurrentWeapon;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_PrimaryWeapon;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_SecondaryWeapon;
 
 	void CameraSet();
 	void MeshSet();
@@ -61,6 +80,13 @@ protected:
 	void SprintEnd(const FInputActionValue& Value);
 	void CrouchStart(const FInputActionValue& Value);
 	void CrouchEnd(const FInputActionValue& Value);
+
+	void EquipWeapon(AWeaponBase* Weapon);
+	void SwitchToPrimary(const FInputActionValue& Value);
+	void SwitchToSecondary(const FInputActionValue& Value);
+
+	void FireStart(const FInputActionValue& Value);
+	void FireEnd(const FInputActionValue& Value);
 
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;

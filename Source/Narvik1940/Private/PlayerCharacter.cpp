@@ -2,6 +2,7 @@
 
 
 #include "PlayerCharacter.h"
+#include "WeaponSMG.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
@@ -28,7 +29,7 @@ void APlayerCharacter::MeshSet()
 	ArmsMesh->SetupAttachment(FPSCamera);
 	ArmsMesh->bCastDynamicShadow = false;
 	ArmsMesh->CastShadow = false;
-	GetMesh()->SetOwnerNoSee(true);
+	GetMesh()->SetOwnerNoSee(false);
 }
 
 void APlayerCharacter::MovementSet()
@@ -61,6 +62,11 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::SprintEnd);
 		EIC->BindAction(IA_Crouch, ETriggerEvent::Triggered, this, &APlayerCharacter::CrouchStart);
 		EIC->BindAction(IA_Crouch, ETriggerEvent::Completed, this, &APlayerCharacter::CrouchEnd);
+		EIC->BindAction(IA_PrimaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToPrimary);
+		EIC->BindAction(IA_SecondaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToSecondary);
+		EIC->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &APlayerCharacter::FireStart);
+		EIC->BindAction(IA_Fire, ETriggerEvent::Completed, this, &APlayerCharacter::FireEnd);
+
 	}
 }
 
@@ -115,4 +121,52 @@ void APlayerCharacter::CrouchEnd(const FInputActionValue& Value)
 {
 	UnCrouch();
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
+{
+	if (!Weapon) return;
+
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->OnUnEquip();
+	}
+
+	CurrentWeapon = Weapon;
+	CurrentWeapon->OnEquip();
+
+	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
+	CurrentWeapon->AttachToComponent(ArmsMesh, Rules, TEXT("hand_r_socket"));
+}
+
+void APlayerCharacter::SwitchToPrimary(const FInputActionValue& Value)
+{
+	if (PrimaryWeapon && CurrentWeapon != PrimaryWeapon)
+	{
+		EquipWeapon(PrimaryWeapon);
+	}
+}
+
+void APlayerCharacter::SwitchToSecondary(const FInputActionValue& Value)
+{
+	if (SecondaryWeapon && CurrentWeapon != SecondaryWeapon)
+	{
+		EquipWeapon(SecondaryWeapon);
+	}
+}
+
+void APlayerCharacter::FireStart(const FInputActionValue& Value)
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Fire();
+	}
+}
+
+void APlayerCharacter::FireEnd(const FInputActionValue& Value)
+{
+	if (AWeaponSMG* SMG = Cast<AWeaponSMG>(CurrentWeapon))
+	{
+		SMG->StopFire();
+	}
 }
