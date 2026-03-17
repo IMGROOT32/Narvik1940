@@ -6,6 +6,26 @@
 #include "CharacterBase.generated.h"
 
 class UInputAction;
+
+UENUM(BlueprintType)
+enum class EBodyPart : uint8
+{
+	Head UMETA(DisplayName = "Head"),
+	Chest UMETA(DisplayName = "Chest"),
+	LeftArm UMETA(DisplayName = "LeftArm"),
+	RightArm UMETA(DisplayName = "RightArm"),
+	LeftLeg UMETA(DisplayName = "LeftLeg"),
+	RightLeg UMETA(DisplayName = "RightLeg")
+};
+
+UENUM(BlueprintType)
+enum class EBodyStatus : uint8
+{
+	Normal UMETA(DisplayName = "Normal"),
+	Injured UMETA(DisplayName = "Injured"),
+	Disabled UMETA(DisplayName = "Disabled")
+};
+
 UCLASS()
 class NARVIK1940_API ACharacterBase : public ACharacter
 {
@@ -25,41 +45,31 @@ protected:
 	float CrouchSpeed = 300.f;
 
 	UPROPERTY(EditAnywhere, Category = "Health")
-	float HeadHP = 100.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float ChestHP = 50.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float LeftArmHP = 40.0f;
-	
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float RightArmHP = 40.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float LeftLegHP = 30.0f;
-
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float RightLegHP = 30.0f;
+	TMap<EBodyPart, float> BodyPartHP =
+	{
+		{EBodyPart::Head, 35.0f},
+		{EBodyPart::Chest, 100.0f},
+		{EBodyPart::LeftArm, 60.0f},
+		{EBodyPart::RightArm, 60.0f},
+		{EBodyPart::LeftLeg, 70.0f},
+		{EBodyPart::RightLeg, 70.0f}
+	};
 
 	UPROPERTY(BlueprintReadOnly, Category = "Status")
-	bool bLeftArmDisabled = false;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Status")
-	bool bRightArmDisabled = false;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Status")
-	bool bLeftLegDisabled = false;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Status")
-	bool bRightLegDisabled = false;
+	TMap<EBodyPart, EBodyStatus> BodyPartStatus =
+	{
+		{EBodyPart::Head, EBodyStatus::Normal},
+		{EBodyPart::Chest, EBodyStatus::Normal},
+		{EBodyPart::LeftArm, EBodyStatus::Normal},
+		{EBodyPart::RightArm, EBodyStatus::Normal},
+		{EBodyPart::LeftLeg, EBodyStatus::Normal},
+		{EBodyPart::RightLeg, EBodyStatus::Normal}
+	};
 
 	virtual void BeginPlay() override;
 
 public:
 	virtual void Tick(float DeltaTime) override;
-
 	virtual void TakeDamageByPart(FName BodyPart, float Damage);
-
 	virtual void OnDead();
 };

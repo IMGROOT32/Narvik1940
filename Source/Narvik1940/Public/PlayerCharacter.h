@@ -39,19 +39,21 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_Crouch;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	float LookSensitivity = 20.0f;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	bool bIsSprinting = false;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Movement")
-	float CrouchCameraSpeed = 5.0f;
-
-	FVector TargetCameraLocation;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	float MovementSpeed = 0.0f;
 
 	UPROPERTY(BluePrintReadOnly, Category = "Anim")
 	bool bIsInAir = false;
+
+	void CameraSet();
+	void MeshSet();
+	void MovementSet();
 
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);

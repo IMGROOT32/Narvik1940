@@ -10,36 +10,42 @@ APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraSet();
+	MeshSet();
+	MovementSet();
+}
+
+void APlayerCharacter::CameraSet()
+{
 	FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
 	FPSCamera->SetupAttachment(GetMesh(), TEXT("head"));
-	FPSCamera->SetRelativeLocation(FVector(0.0f, 0.0f, 90.0f));
 	FPSCamera->bUsePawnControlRotation = true;
+}
 
+void APlayerCharacter::MeshSet()
+{
 	ArmsMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("ArmsMesh"));
 	ArmsMesh->SetupAttachment(FPSCamera);
 	ArmsMesh->bCastDynamicShadow = false;
 	ArmsMesh->CastShadow = false;
-
 	GetMesh()->SetOwnerNoSee(true);
+}
 
+void APlayerCharacter::MovementSet()
+{
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	}
+}
 
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	MovementSpeed = GetVelocity().Size();
 	bIsInAir = GetCharacterMovement()->IsFalling();
-
-	FVector CurrentLocation = FPSCamera->GetRelativeLocation();
-	FVector NewLocation = FMath::VInterpTo(CurrentLocation, TargetCameraLocation, DeltaTime,
-		CrouchCameraSpeed);
-	FPSCamera->SetRelativeLocation(NewLocation);
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -81,8 +87,9 @@ void APlayerCharacter::Look(const FInputActionValue& Value)
 
 	if (Controller)
 	{
-		AddControllerYawInput(-LookVector.X);
-		AddControllerPitchInput(LookVector.Y);
+		float DeltaTime = GetWorld()->GetDeltaSeconds();
+		AddControllerYawInput(-LookVector.X * DeltaTime * LookSensitivity);
+		AddControllerPitchInput(LookVector.Y * DeltaTime * LookSensitivity);
 	}
 }
 
@@ -102,13 +109,10 @@ void APlayerCharacter::CrouchStart(const FInputActionValue& Value)
 {
 	Crouch();
 	GetCharacterMovement()->MaxWalkSpeed = CrouchSpeed;
-	TargetCameraLocation = FVector(0.0f, 0.0f, 0.0f);
 }
 
 void APlayerCharacter::CrouchEnd(const FInputActionValue& Value)
 {
 	UnCrouch();
 	GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
-	TargetCameraLocation = FVector(0.0f, 0.0f, 60.0f);
 }
-
