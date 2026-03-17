@@ -60,7 +60,7 @@ void AWeaponSMG::FireOnce()
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
-			//UE_Log(LogTemp, Warning, TEXT("Hit : %s"), *HitActor->GetName());
+			UE_LOG(LogTemp, Warning, TEXT("Hit : %s"), *HitActor->GetName());
 		}
 	}
 }

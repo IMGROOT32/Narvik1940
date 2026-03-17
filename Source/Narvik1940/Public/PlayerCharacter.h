@@ -52,7 +52,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	float MovementSpeed = 0.0f;
 
-	UPROPERTY(BluePrintReadOnly, Category = "Anim")
+	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsInAir = false;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
@@ -69,6 +69,10 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_SecondaryWeapon;
+
+	//임시 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<AWeaponBase>SecondaryWeaponClass;
 
 	void CameraSet();
 	void MeshSet();

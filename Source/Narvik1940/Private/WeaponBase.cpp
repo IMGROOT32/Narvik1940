@@ -20,6 +20,9 @@ void AWeaponBase::BeginPlay()
 void AWeaponBase::OnEquip()
 {
 	WeaponMesh->SetVisibility(true);
+
+	//임시
+	UE_LOG(LogTemp, Warning, TEXT("OnEquip Called, Visibility : true"));
 }
 
 void AWeaponBase::OnUnEquip()

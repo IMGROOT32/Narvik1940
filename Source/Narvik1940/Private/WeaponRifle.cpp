@@ -3,8 +3,6 @@
 
 #include "WeaponRifle.h"
 #include "Engine/World.h"	
-#include <Kismet/GameplayStaticsTypes.h>
-#include <Editor/MeshPaint/Public/MeshPaintHelpers.h>
 
 AWeaponRifle::AWeaponRifle()
 {
@@ -43,7 +41,7 @@ void AWeaponRifle::Fire()
 		AActor* HitActor = HitResult.GetActor();
 		if (HitActor)
 		{
-			//UE_Log(LogTemp, Warning, TEXT("Hit : %s"), *HitActor->GetName());
+			UE_LOG(LogTemp, Warning, TEXT("Hit : %s"), *HitActor->GetName());
 		}
 	}
 	GetWorldTimerManager().SetTimer(BoltActionTimer, this, &AWeaponRifle::ResetBoltAction,

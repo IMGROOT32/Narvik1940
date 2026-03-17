@@ -40,6 +40,15 @@ void APlayerCharacter::MovementSet()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	//임시
+	if (SecondaryWeaponClass)
+	{
+		FActorSpawnParameters Params;
+		Params.Owner = this;
+		SecondaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(SecondaryWeaponClass, Params);
+		EquipWeapon(SecondaryWeapon);
+	}
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
@@ -136,7 +145,7 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 	CurrentWeapon->OnEquip();
 
 	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
-	CurrentWeapon->AttachToComponent(ArmsMesh, Rules, TEXT("hand_r_socket"));
+	bool bAttached = CurrentWeapon->AttachToComponent(GetMesh(), Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
 }
 
 void APlayerCharacter::SwitchToPrimary(const FInputActionValue& Value)
