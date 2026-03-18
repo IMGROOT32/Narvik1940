@@ -40,14 +40,23 @@ void APlayerCharacter::MovementSet()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
 	//임시
 	if (SecondaryWeaponClass)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("WeaponClass Found"));
 		FActorSpawnParameters Params;
 		Params.Owner = this;
+		Params.Instigator = this;
 		SecondaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(SecondaryWeaponClass, Params);
-		EquipWeapon(SecondaryWeapon);
+		if (SecondaryWeapon)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Weapon Spawned"));
+			EquipWeapon(SecondaryWeapon);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("WeaponClass NULL"));
 	}
 }
 
@@ -168,14 +177,12 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 {
 	if (CurrentWeapon)
 	{
+		bIsFiring = true;
 		CurrentWeapon->Fire();
 	}
 }
 
 void APlayerCharacter::FireEnd(const FInputActionValue& Value)
 {
-	if (AWeaponSMG* SMG = Cast<AWeaponSMG>(CurrentWeapon))
-	{
-		SMG->StopFire();
-	}
+
 }

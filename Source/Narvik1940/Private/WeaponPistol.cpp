@@ -2,6 +2,7 @@
 
 
 #include "WeaponPistol.h"
+#include "PlayerCharacter.h"
 #include "Engine/World.h"
 #include "Engine/EngineTypes.h"
 
@@ -15,52 +16,65 @@ AWeaponPistol::AWeaponPistol()
 
 void AWeaponPistol::Fire()
 {
-	if (!bCanFire || CurrentAmmo <= 0) return;
+    if (!bCanFire) return;
 
-	bCanFire = false;
-	CurrentAmmo--;
+    if (CurrentAmmo <= 0)
+    {
+        APlayerCharacter* PC = Cast<APlayerCharacter>(GetOwner());
+        if (PC) PC->bIsFiring = false;
+        return;
+    }
 
-	UE_LOG(LogTemp, Warning, TEXT("Pistol Fire! Ammo : %d"), CurrentAmmo);
+    bCanFire = false;
+    CurrentAmmo--;
 
-	APlayerController* PC = Cast<APlayerController>(GetInstigatorController());
-	if (!PC)
-	{
-		return;
-	}
+    GetWorldTimerManager().SetTimer(
+        FireTimer, this, &AWeaponPistol::ResetFire, FireRate, false);
 
-	FVector CameraLocation;
-	FRotator CameraRotation;
-	PC->GetPlayerViewPoint(CameraLocation, CameraRotation);
+    APlayerController* PC = Cast<APlayerController>(GetInstigatorController());
+    if (!PC)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("PC NULL"));
+        return;
+    }
 
-	FVector TraceEnd = CameraLocation + CameraRotation.Vector() * Range;
+    FVector CameraLocation;
+    FRotator CameraRotation;
+    PC->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
-	FHitResult HitResult;
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
+    FVector TraceEnd = CameraLocation + CameraRotation.Vector() * Range;
 
-	bool bHit = GetWorld()->LineTraceSingleByChannel(HitResult, CameraLocation, TraceEnd,
-		ECC_Visibility, Params);
+    FHitResult HitResult;
+    FCollisionQueryParams Params;
+    Params.AddIgnoredActor(this);
+    Params.AddIgnoredActor(GetOwner());
 
-	if (bHit)
-	{
-		if (bHit)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("No Hit"));
-		}
+    bool bHit = GetWorld()->LineTraceSingleByChannel(
+        HitResult, CameraLocation, TraceEnd, ECC_Visibility, Params);
 
-		GetWorldTimerManager().SetTimer(
-			FireTimer, this, &AWeaponPistol::ResetFire, FireRate, false);
-	}
+    if (bHit)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("No Hit"));
+    }
 }
 
 void AWeaponPistol::ResetFire()
 {
 	bCanFire = true;
+	UE_LOG(LogTemp, Warning, TEXT("ResetFire Called"));
+	APlayerCharacter* PC = Cast<APlayerCharacter>(GetOwner());
+	if (PC)
+	{
+		PC->bIsFiring = false;
+		UE_LOG(LogTemp, Warning, TEXT("bIsFiring set to false"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("PC NULL in ResetFire"));
+	}
 }
-
 

@@ -32,7 +32,7 @@ void AWeaponBase::OnUnEquip()
 
 void AWeaponBase::Fire()
 {
-
+	UE_LOG(LogTemp, Warning, TEXT("WeaponBase Fire Called"));
 }
 
 void AWeaponBase::Reload()

@@ -70,6 +70,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_SecondaryWeapon;
 
+
 	//임시 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TSubclassOf<AWeaponBase>SecondaryWeaponClass;
@@ -96,6 +97,10 @@ protected:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 public:	
+
+	UPROPERTY(BlueprintReadOnly, Category = "Anim")
+	bool bIsFiring = false;
+
 	virtual void Tick(float DeltaTime) override;
 
 };
