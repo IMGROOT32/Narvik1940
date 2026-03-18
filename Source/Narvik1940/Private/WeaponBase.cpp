@@ -4,9 +4,13 @@
 AWeaponBase::AWeaponBase()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	
+	WeaponSkeletalMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponSkeletalMesh"));
+	RootComponent = WeaponSkeletalMesh;
 
-	WeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WeaponMesh"));
-	RootComponent = WeaponMesh;
+	WeaponStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponStaticMesh"));
+	WeaponStaticMesh->SetupAttachment(RootComponent);
+	WeaponStaticMesh->SetVisibility(false);
 
 }
 
@@ -14,20 +18,18 @@ void AWeaponBase::BeginPlay()
 {
 	Super::BeginPlay();
 	CurrentAmmo = MagazineSize;
-	
 }
 
 void AWeaponBase::OnEquip()
 {
-	WeaponMesh->SetVisibility(true);
-
-	//임시
-	UE_LOG(LogTemp, Warning, TEXT("OnEquip Called, Visibility : true"));
+	WeaponSkeletalMesh->SetVisibility(true);
+	WeaponStaticMesh->SetVisibility(true);
 }
 
 void AWeaponBase::OnUnEquip()
 {
-	WeaponMesh->SetVisibility(false);
+	WeaponSkeletalMesh->SetVisibility(false);
+	WeaponStaticMesh->SetVisibility(false);
 }
 
 void AWeaponBase::Fire()
@@ -37,5 +39,4 @@ void AWeaponBase::Fire()
 
 void AWeaponBase::Reload()
 {
-
 }

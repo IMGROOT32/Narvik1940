@@ -30,7 +30,10 @@ public:
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
-	class USkeletalMeshComponent* WeaponMesh;
+	class USkeletalMeshComponent* WeaponSkeletalMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	class UStaticMeshComponent* WeaponStaticMesh;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
 	EWeaponType WeaponType;
