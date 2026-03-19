@@ -19,7 +19,7 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::CameraSet()
 {
 	FPSCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FPSCamera"));
-	FPSCamera->SetupAttachment(GetMesh(), TEXT("head"));
+	FPSCamera->SetupAttachment(GetMesh(), TEXT("headSocket"));
 	FPSCamera->bUsePawnControlRotation = true;
 }
 
