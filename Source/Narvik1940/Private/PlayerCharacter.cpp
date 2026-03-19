@@ -159,18 +159,20 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 
 void APlayerCharacter::SwitchToPrimary(const FInputActionValue& Value)
 {
-	if (PrimaryWeapon && CurrentWeapon != PrimaryWeapon)
+	if (PrimaryWeapon == nullptr || CurrentWeapon == PrimaryWeapon)
 	{
-		EquipWeapon(PrimaryWeapon);
+		return;
 	}
+	EquipWeapon(PrimaryWeapon);
 }
 
 void APlayerCharacter::SwitchToSecondary(const FInputActionValue& Value)
 {
-	if (SecondaryWeapon && CurrentWeapon != SecondaryWeapon)
+	if (SecondaryWeapon == nullptr || CurrentWeapon == SecondaryWeapon)
 	{
-		EquipWeapon(SecondaryWeapon);
+		return;
 	}
+	EquipWeapon(SecondaryWeapon);
 }
 
 void APlayerCharacter::FireStart(const FInputActionValue& Value)
