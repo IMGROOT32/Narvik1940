@@ -225,3 +225,30 @@ void APlayerCharacter::RecoverRecoil()
 	Controller->SetControlRotation(FMath::RInterpTo(Current, Target,
 		GetWorld()->GetDeltaSeconds(), RecoilRecoverySpeed));
 }
+
+void APlayerCharacter::SetAimSwayIntensity(float Intensity)
+{
+	AimSwayIntensity = Intensity;
+
+	if (AimSwayIntensity > 0.0f)
+	{
+		GetWorldTimerManager().SetTimer(AimSwayTimer, this, &APlayerCharacter::AimSway,
+			0.05f, true);
+	}
+	else
+	{
+		GetWorldTimerManager().ClearTimer(AimSwayTimer);
+	}
+}
+
+void APlayerCharacter::AimSway()
+{
+	if (AimSwayIntensity <= 0.0f) return;
+
+	float Time = GetWorld()->GetTimeSeconds();
+	float PitchSway = FMath::Sin(Time * AimSwaySpeed) * AimSwayIntensity;
+	float YawSway = FMath::Cos(Time * AimSwaySpeed * 0.7f) * AimSwayIntensity;
+
+	AddControllerPitchInput(PitchSway);
+	AddControllerYawInput(YawSway);
+}

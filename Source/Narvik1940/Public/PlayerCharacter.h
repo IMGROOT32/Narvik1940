@@ -76,8 +76,16 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
 	float RecoilRecoverySpeed = 5.0f;
 
+
+	UPROPERTY(EditDefaultsOnly, Category = "AimSway")
+	float AimSwayIntensity = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AimSway")
+	float AimSwaySpeed = 2.0f;
+
 	FRotator RecoilTarget = FRotator::ZeroRotator;
 	FTimerHandle RecoilRecoveryTimer;
+	FTimerHandle AimSwayTimer;
 
 	//임시 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -103,6 +111,7 @@ protected:
 	void StartReload(const FInputActionValue& Value);
 	void ApplyRecoil();
 	void RecoverRecoil();
+	void AimSway();
 
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
@@ -114,6 +123,7 @@ public:
 
 	AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 
+	void SetAimSwayIntensity(float Intensity);
 	virtual void Tick(float DeltaTime) override;
 
 };
