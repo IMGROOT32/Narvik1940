@@ -65,6 +65,20 @@ void APlayerCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	MovementSpeed = GetVelocity().Size();
 	bIsInAir = GetCharacterMovement()->IsFalling();
+
+	RecoilOffset = FMath::RInterpTo(RecoilOffset, TargetRecoilOffset, DeltaTime, RecoilRecoverySpeed);
+	TargetRecoilOffset = FMath::RInterpTo(TargetRecoilOffset, FRotator::ZeroRotator,
+		DeltaTime, RecoilRecoverySpeed);
+
+	if (Controller)
+	{
+		FRotator ControlRotation = Controller->GetControlRotation();
+		ControlRotation.Pitch += RecoilOffset.Pitch - 
+			(RecoilOffset.Pitch * DeltaTime * RecoilRecoverySpeed);
+		ControlRotation.Yaw += RecoilOffset.Yaw - 
+			(RecoilOffset.Yaw * DeltaTime * RecoilRecoverySpeed);
+		Controller->SetControlRotation(ControlRotation);
+	}
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -183,6 +197,7 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 	{
 		bIsFiring = true;
 		CurrentWeapon->Fire();
+		ApplyRecoil();
 	}
 }
 
@@ -197,4 +212,13 @@ void APlayerCharacter::StartReload(const FInputActionValue& Value)
 	{
 		CurrentWeapon->Reload();
 	}
+}
+
+void APlayerCharacter::ApplyRecoil()
+{
+	if (!CurrentWeapon) return;
+
+	float RandomYaw = FMath::RandRange(-RecoilYawAmount, RecoilYawAmount);
+	TargetRecoilOffset.Pitch -= RecoilPitchAmount;
+	TargetRecoilOffset.Yaw += RandomYaw;
 }

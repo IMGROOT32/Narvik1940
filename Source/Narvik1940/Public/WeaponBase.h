@@ -47,6 +47,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float Weight = 5.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float WeaponRecoilPitch = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	float WeaponRecoilYaw = 0.3f;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
 	int32 MagazineSize = 30;
 
@@ -67,6 +73,7 @@ protected:
 
 	FTimerHandle ReloadTimer;
 
+
 	UPROPERTY(EditDefaultsOnly, Category = "Debug")
 	bool bShowDebugTrace = true;
 
@@ -74,6 +81,7 @@ protected:
 	void FinishReload();
 
 public:	
+
 	virtual void OnEquip();
 	virtual void OnUnEquip();
 	virtual void Fire();
@@ -85,4 +93,7 @@ public:
 	int32 GetCurrentAmmo() const { return CurrentAmmo; }
 	int32 GetReserveAmmo() const { return ReserveAmmo; }
 	bool GetIsReloading() const { return bIsReloading; }
+	float GetRecoilPitch() const { return WeaponRecoilPitch; }
+	float GetRecoilYaw() const { return WeaponRecoilYaw; }
+
 };

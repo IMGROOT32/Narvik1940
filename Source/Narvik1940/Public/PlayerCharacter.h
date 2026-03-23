@@ -73,6 +73,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_SecondaryWeapon;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
+	float RecoilPitchAmount = 1.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
+	float RecoilYawAmount = 0.5f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
+	float RecoilRecoverySpeed = 5.0f;
+
+	FRotator RecoilOffset = FRotator::ZeroRotator;
+	FRotator TargetRecoilOffset = FRotator::ZeroRotator;
 
 	//임시 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -104,6 +115,8 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsFiring = false;
+
+	void ApplyRecoil();
 
 	virtual void Tick(float DeltaTime) override;
 
