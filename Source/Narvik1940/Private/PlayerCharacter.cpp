@@ -85,6 +85,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_SecondaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToSecondary);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &APlayerCharacter::FireStart);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Completed, this, &APlayerCharacter::FireEnd);
+		EIC->BindAction(IA_Reload, ETriggerEvent::Started, this, & APlayerCharacter::StartReload);
 
 	}
 }
@@ -188,4 +189,12 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 void APlayerCharacter::FireEnd(const FInputActionValue& Value)
 {
 
+}
+
+void APlayerCharacter::StartReload(const FInputActionValue& Value)
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Reload();
+	}
 }

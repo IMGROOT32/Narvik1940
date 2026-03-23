@@ -5,13 +5,16 @@
 #include "PlayerCharacter.h"
 #include "Engine/World.h"
 #include "Engine/EngineTypes.h"
+#include "DrawDebugHelpers.h"
 
 AWeaponPistol::AWeaponPistol()
 {
 	WeaponType = EWeaponType::Pistol;
 	WeaponSlot = EWeaponSlot::Secondary;
 	MagazineSize = 8;
+    ReserveAmmo = 24;
 	bRequiresBothArms = false;
+    ReloadTime = 1.2f;
 }
 
 void AWeaponPistol::Fire()
@@ -55,10 +58,23 @@ void AWeaponPistol::Fire()
     if (bHit)
     {
         UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *HitResult.GetActor()->GetName());
+
+        if (bShowDebugTrace)
+        {
+            DrawDebugLine(GetWorld(), CameraLocation, HitResult.ImpactPoint,
+                FColor::Blue, false, 2.0f, 0, 1.0f);
+        }
     }
     else
     {
         UE_LOG(LogTemp, Warning, TEXT("No Hit"));
+
+        if (bShowDebugTrace)
+        {
+            DrawDebugLine(GetWorld(), CameraLocation, TraceEnd,
+                FColor::Red, false, 2.0f, 0, 1.0f);
+        }
+
     }
 }
 

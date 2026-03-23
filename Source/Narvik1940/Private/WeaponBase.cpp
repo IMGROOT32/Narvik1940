@@ -39,4 +39,25 @@ void AWeaponBase::Fire()
 
 void AWeaponBase::Reload()
 {
+	if (bIsReloading) return;
+	if (CurrentAmmo == MagazineSize) return;
+	if (ReserveAmmo <= 0) return;
+
+	bIsReloading = true;
+	UE_LOG(LogTemp, Warning, TEXT("Reloading"));
+
+	GetWorldTimerManager().SetTimer(ReloadTimer, this, &AWeaponBase::FinishReload,
+		ReloadTime, false);
+}
+
+void AWeaponBase::FinishReload()
+{
+	int32 AmmoNeeded = MagazineSize - CurrentAmmo;
+	int32 AmmoToAdd = FMath::Min(AmmoNeeded, ReserveAmmo);
+
+	CurrentAmmo += AmmoToAdd;
+	ReserveAmmo -= AmmoToAdd;
+
+	bIsReloading = false;
+	UE_LOG(LogTemp, Warning, TEXT("Reload Complete : Ammo : %d / %d"), CurrentAmmo, ReserveAmmo)
 }

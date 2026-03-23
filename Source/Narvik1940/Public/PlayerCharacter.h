@@ -46,6 +46,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_Fire;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	UInputAction* IA_Reload;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Movement")
 	bool bIsSprinting = false;
 
@@ -92,6 +95,7 @@ protected:
 
 	void FireStart(const FInputActionValue& Value);
 	void FireEnd(const FInputActionValue& Value);
+	void StartReload(const FInputActionValue& Value);
 
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;

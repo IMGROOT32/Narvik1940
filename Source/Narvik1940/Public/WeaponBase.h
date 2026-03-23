@@ -53,24 +53,36 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Ammo")
 	int32 CurrentAmmo = 0;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Ammo")
 	int32 ReserveAmmo = 0;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	bool bRequiresBothArms = true;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Ammo")
+	bool bIsReloading = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
+	float ReloadTime = 1.5f;
+
+	FTimerHandle ReloadTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Debug")
+	bool bShowDebugTrace = true;
+
 	virtual void BeginPlay() override;
+	void FinishReload();
 
 public:	
 	virtual void OnEquip();
 	virtual void OnUnEquip();
-
 	virtual void Fire();
-
 	virtual void Reload();
 
 	EWeaponSlot GetWeaponSlot() const { return WeaponSlot; }
 	float GetWeight() const { return Weight; }
 	bool GetRequiresBothArms() const { return bRequiresBothArms; }
-
+	int32 GetCurrentAmmo() const { return CurrentAmmo; }
+	int32 GetReserveAmmo() const { return ReserveAmmo; }
+	bool GetIsReloading() const { return bIsReloading; }
 };
