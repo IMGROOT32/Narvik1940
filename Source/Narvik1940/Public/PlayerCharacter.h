@@ -74,16 +74,10 @@ protected:
 	UInputAction* IA_SecondaryWeapon;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
-	float RecoilPitchAmount = 1.5f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
-	float RecoilYawAmount = 0.5f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
 	float RecoilRecoverySpeed = 5.0f;
 
-	FRotator RecoilOffset = FRotator::ZeroRotator;
-	FRotator TargetRecoilOffset = FRotator::ZeroRotator;
+	FRotator RecoilTarget = FRotator::ZeroRotator;
+	FTimerHandle RecoilRecoveryTimer;
 
 	//임시 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
@@ -107,6 +101,8 @@ protected:
 	void FireStart(const FInputActionValue& Value);
 	void FireEnd(const FInputActionValue& Value);
 	void StartReload(const FInputActionValue& Value);
+	void ApplyRecoil();
+	void RecoverRecoil();
 
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
@@ -116,7 +112,7 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsFiring = false;
 
-	void ApplyRecoil();
+	AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 
 	virtual void Tick(float DeltaTime) override;
 

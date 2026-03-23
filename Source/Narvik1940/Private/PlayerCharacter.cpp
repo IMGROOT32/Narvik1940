@@ -63,22 +63,7 @@ void APlayerCharacter::BeginPlay()
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	MovementSpeed = GetVelocity().Size();
-	bIsInAir = GetCharacterMovement()->IsFalling();
 
-	RecoilOffset = FMath::RInterpTo(RecoilOffset, TargetRecoilOffset, DeltaTime, RecoilRecoverySpeed);
-	TargetRecoilOffset = FMath::RInterpTo(TargetRecoilOffset, FRotator::ZeroRotator,
-		DeltaTime, RecoilRecoverySpeed);
-
-	if (Controller)
-	{
-		FRotator ControlRotation = Controller->GetControlRotation();
-		ControlRotation.Pitch += RecoilOffset.Pitch - 
-			(RecoilOffset.Pitch * DeltaTime * RecoilRecoverySpeed);
-		ControlRotation.Yaw += RecoilOffset.Yaw - 
-			(RecoilOffset.Yaw * DeltaTime * RecoilRecoverySpeed);
-		Controller->SetControlRotation(ControlRotation);
-	}
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -99,7 +84,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_SecondaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToSecondary);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &APlayerCharacter::FireStart);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Completed, this, &APlayerCharacter::FireEnd);
-		EIC->BindAction(IA_Reload, ETriggerEvent::Started, this, & APlayerCharacter::StartReload);
+		EIC->BindAction(IA_Reload, ETriggerEvent::Started, this, &APlayerCharacter::StartReload);
 
 	}
 }
@@ -218,7 +203,23 @@ void APlayerCharacter::ApplyRecoil()
 {
 	if (!CurrentWeapon) return;
 
-	float RandomYaw = FMath::RandRange(-RecoilYawAmount, RecoilYawAmount);
-	TargetRecoilOffset.Pitch -= RecoilPitchAmount;
-	TargetRecoilOffset.Yaw += RandomYaw;
+	float Pitch = CurrentWeapon->GetRecoilPitch();
+	float Yaw = FMath::RandRange(-CurrentWeapon->GetRecoilYaw(), CurrentWeapon->GetRecoilYaw());
+
+	AddControllerPitchInput(-Pitch);
+	AddControllerYawInput(Yaw);
+
+	GetWorldTimerManager().ClearTimer(RecoilRecoveryTimer);
+	GetWorldTimerManager().SetTimer(RecoilRecoveryTimer, this, &APlayerCharacter::RecoverRecoil,
+		0.05f, true);
+}
+
+void APlayerCharacter::RecoverRecoil()
+{
+	FRotator Current = GetControlRotation();
+	FRotator Target = FRotator(Current.Pitch + (Current.Pitch > 0 ? -1.0f : 0.0f),
+		Current.Yaw, Current.Roll);
+
+	Controller->SetControlRotation(FMath::RInterpTo(Current, Target,
+		GetWorld()->GetDeltaSeconds(), RecoilRecoverySpeed));
 }
