@@ -180,6 +180,8 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 {
 	if (CurrentWeapon)
 	{
+		if (CurrentWeapon->GetCurrentAmmo() <= 0) return;
+
 		bIsFiring = true;
 		CurrentWeapon->Fire();
 		ApplyRecoil();
