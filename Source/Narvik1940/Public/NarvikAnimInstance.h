@@ -21,7 +21,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	float MovementSpeed = 0.0f;
 
-	UPROPERTY(BlueprintReadOnly, Categroy = "Anim")
+	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsInAir = false;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
