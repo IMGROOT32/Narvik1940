@@ -80,6 +80,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_Sprint, ETriggerEvent::Completed, this, &APlayerCharacter::SprintEnd);
 		EIC->BindAction(IA_Crouch, ETriggerEvent::Triggered, this, &APlayerCharacter::CrouchStart);
 		EIC->BindAction(IA_Crouch, ETriggerEvent::Completed, this, &APlayerCharacter::CrouchEnd);
+
 		EIC->BindAction(IA_PrimaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToPrimary);
 		EIC->BindAction(IA_SecondaryWeapon, ETriggerEvent::Triggered, this, &APlayerCharacter::SwitchToSecondary);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &APlayerCharacter::FireStart);

@@ -17,4 +17,7 @@ protected:
 	class UInputMappingContext* PlayerMappingContext;
 
 	virtual void BeginPlay() override;
+
+private:
+	void SetupEnhancedInput();
 };

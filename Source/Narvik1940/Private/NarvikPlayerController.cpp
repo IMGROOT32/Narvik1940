@@ -6,7 +6,11 @@
 void ANarvikPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	SetupEnhancedInput();
+}
 
+void ANarvikPlayerController::SetupEnhancedInput()
+{
 	if (UEnhancedInputLocalPlayerSubsystem* Subsystem =
 		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
