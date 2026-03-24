@@ -40,6 +40,8 @@ void APlayerCharacter::MovementSet()
 void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	FPSCamera->SetFieldOfView(DefaultFOV);
+	
 	//임시
 	if (SecondaryWeaponClass)
 	{
@@ -85,6 +87,8 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_Fire, ETriggerEvent::Triggered, this, &APlayerCharacter::FireStart);
 		EIC->BindAction(IA_Fire, ETriggerEvent::Completed, this, &APlayerCharacter::FireEnd);
 		EIC->BindAction(IA_Reload, ETriggerEvent::Started, this, &APlayerCharacter::StartReload);
+		EIC->BindAction(IA_ADS, ETriggerEvent::Started, this, &APlayerCharacter::ADSStart);
+		EIC->BindAction(IA_ADS, ETriggerEvent::Completed, this, &APlayerCharacter::ADSEnd);
 
 	}
 }
@@ -256,4 +260,31 @@ void APlayerCharacter::AimSway()
 
 	AddControllerPitchInput(PitchSway);
 	AddControllerYawInput(YawSway);
+}
+
+void APlayerCharacter::ADSStart(const FInputActionValue& Value)
+{
+	bIsADS = true;
+	GetWorldTimerManager().SetTimer(ADSTimer, this, &APlayerCharacter::UpdateADS,
+		0.016f, true);
+}
+
+void APlayerCharacter::ADSEnd(const FInputActionValue& Value)
+{
+	bIsADS = false;
+}
+
+void APlayerCharacter::UpdateADS()
+{
+	float DeltaTime = GetWorld()->GetDeltaSeconds();
+	float TargetFOV = bIsADS ? ADSFOV : DefaultFOV;
+	
+	float CurrentFOV = FPSCamera -> FieldOfView;
+	float NewFOV = FMath::FInterpTo(CurrentFOV, TargetFOV,DeltaTime,ADSSpeed);
+	FPSCamera->SetFieldOfView(NewFOV);
+	
+	if (!bIsADS && FMath::IsNearlyEqual(CurrentFOV, NewFOV,0.1f))
+	{
+		GetWorldTimerManager().ClearTimer(ADSTimer);
+	}
 }

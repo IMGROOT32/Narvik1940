@@ -76,7 +76,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Recoil")
 	float RecoilRecoverySpeed = 5.0f;
 
-
 	UPROPERTY(EditDefaultsOnly, Category = "AimSway")
 	float AimSwayIntensity = 0.0f;
 
@@ -87,9 +86,26 @@ protected:
 	FTimerHandle RecoilRecoveryTimer;
 	FTimerHandle AimSwayTimer;
 
+	UPROPERTY(EditDefaultsOnly, Category = "ADS")
+	float ADSSpeed = 10.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ADS")
+	float ADSFOV = 75.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ADS")
+	float DefaultFOV = 90.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ADS")
+	bool bIsADS = false;
+
+	FTimerHandle ADSTimer;
+
+	UPROPERTY(EditDefaultsOnly, Category = "ADS")
+	UInputAction* IA_ADS;
+
 	//임시 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<AWeaponBase>SecondaryWeaponClass;
+	TSubclassOf<AWeaponBase> SecondaryWeaponClass;
 
 	void CameraSet();
 	void MeshSet();
@@ -112,12 +128,14 @@ protected:
 	void ApplyRecoil();
 	void RecoverRecoil();
 	void AimSway();
+	void ADSStart(const FInputActionValue& Value);
+	void ADSEnd(const FInputActionValue& Value);
+	void UpdateADS();
 
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-public:	
-
+public:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsFiring = false;
 
@@ -125,5 +143,4 @@ public:
 
 	void SetAimSwayIntensity(float Intensity);
 	virtual void Tick(float DeltaTime) override;
-
 };
