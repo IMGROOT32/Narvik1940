@@ -154,6 +154,11 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 	CurrentWeapon = Weapon;
 	CurrentWeapon->OnEquip();
 
+	if (Weapon->WeaponAnimClass)
+	{
+		GetMesh()->SetAnimInstanceClass(Weapon->WeaponAnimClass);
+	}
+	
 	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
 	bool bAttached = CurrentWeapon->AttachToComponent(GetMesh(), Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
 }

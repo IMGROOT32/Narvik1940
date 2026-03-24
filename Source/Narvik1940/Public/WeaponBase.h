@@ -24,8 +24,8 @@ UCLASS()
 class NARVIK1940_API AWeaponBase : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AWeaponBase();
 
 protected:
@@ -70,18 +70,18 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
 	float ReloadTime = 1.5f;
-
 	FTimerHandle ReloadTimer;
-
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Debug")
 	bool bShowDebugTrace = true;
 
 	virtual void BeginPlay() override;
 	void FinishReload();
 
-public:	
-
+public:
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<UAnimInstance> WeaponAnimClass;
+	
 	virtual void OnEquip();
 	virtual void OnUnEquip();
 	virtual void Fire();
@@ -95,5 +95,4 @@ public:
 	bool GetIsReloading() const { return bIsReloading; }
 	float GetRecoilPitch() const { return WeaponRecoilPitch; }
 	float GetRecoilYaw() const { return WeaponRecoilYaw; }
-
 };
