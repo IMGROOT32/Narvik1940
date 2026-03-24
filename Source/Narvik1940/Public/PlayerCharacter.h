@@ -58,6 +58,12 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsInAir = false;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<AWeaponBase> PrimaryWeaponClass;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<AWeaponBase>SecondaryWeaponClass;
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
 	AWeaponBase* PrimaryWeapon;
 
@@ -102,11 +108,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "ADS")
 	UInputAction* IA_ADS;
-
-	//임시 
-	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	TSubclassOf<AWeaponBase> SecondaryWeaponClass;
-
+	
 	void CameraSet();
 	void MeshSet();
 	void MovementSet();

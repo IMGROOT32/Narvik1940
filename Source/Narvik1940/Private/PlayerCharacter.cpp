@@ -42,24 +42,30 @@ void APlayerCharacter::BeginPlay()
 	Super::BeginPlay();
 	FPSCamera->SetFieldOfView(DefaultFOV);
 	
-	//임시
+	if (PrimaryWeaponClass)
+	{
+		FActorSpawnParameters Params;
+		Params.Owner = this;
+		Params.Instigator = this;
+		PrimaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(PrimaryWeaponClass, Params);
+	}
+	
 	if (SecondaryWeaponClass)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("WeaponClass Found"));
 		FActorSpawnParameters Params;
 		Params.Owner = this;
 		Params.Instigator = this;
 		SecondaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(SecondaryWeaponClass, Params);
-		if (SecondaryWeapon)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("Weapon Spawned"));
-			EquipWeapon(SecondaryWeapon);
-		}
 	}
-	else
+	if (PrimaryWeapon)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("WeaponClass NULL"));
+		EquipWeapon(PrimaryWeapon);
 	}
+	else if (SecondaryWeapon)
+	{
+		EquipWeapon(SecondaryWeapon);
+	}
+		
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
