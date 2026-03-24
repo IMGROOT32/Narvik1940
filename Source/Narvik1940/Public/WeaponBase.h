@@ -52,6 +52,12 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	float WeaponRecoilYaw = 0.3f;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	FVector WeaponOffSet = FVector::ZeroVector;
+	
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	FRotator WeaponRotation = FRotator::ZeroRotator;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Ammo")
 	int32 MagazineSize = 30;

@@ -24,6 +24,12 @@ void AWeaponBase::OnEquip()
 {
 	WeaponSkeletalMesh->SetVisibility(true);
 	WeaponStaticMesh->SetVisibility(true);
+	
+	UE_LOG(LogTemp, Warning, TEXT("WeaponOffset: %s"), *WeaponOffSet.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("WeaponRotation: %s"), *WeaponRotation.ToString());
+	
+	WeaponSkeletalMesh->SetRelativeLocation(WeaponOffSet);
+	WeaponSkeletalMesh->SetRelativeRotation(WeaponRotation);
 }
 
 void AWeaponBase::OnUnEquip()

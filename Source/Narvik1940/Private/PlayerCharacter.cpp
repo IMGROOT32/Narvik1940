@@ -41,7 +41,7 @@ void APlayerCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	FPSCamera->SetFieldOfView(DefaultFOV);
-	
+
 	if (PrimaryWeaponClass)
 	{
 		FActorSpawnParameters Params;
@@ -49,7 +49,7 @@ void APlayerCharacter::BeginPlay()
 		Params.Instigator = this;
 		PrimaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(PrimaryWeaponClass, Params);
 	}
-	
+
 	if (SecondaryWeaponClass)
 	{
 		FActorSpawnParameters Params;
@@ -65,13 +65,11 @@ void APlayerCharacter::BeginPlay()
 	{
 		EquipWeapon(SecondaryWeapon);
 	}
-		
 }
 
 void APlayerCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -95,7 +93,6 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 		EIC->BindAction(IA_Reload, ETriggerEvent::Started, this, &APlayerCharacter::StartReload);
 		EIC->BindAction(IA_ADS, ETriggerEvent::Started, this, &APlayerCharacter::ADSStart);
 		EIC->BindAction(IA_ADS, ETriggerEvent::Completed, this, &APlayerCharacter::ADSEnd);
-
 	}
 }
 
@@ -162,15 +159,20 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 	}
 
 	CurrentWeapon = Weapon;
-	CurrentWeapon->OnEquip();
 
+	FAttachmentTransformRules Rules(EAttachmentRule::KeepRelative, true);
+	bool bAttached = CurrentWeapon->AttachToComponent(GetMesh(), Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
+	
 	if (Weapon->WeaponAnimClass)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("AnimClass Changed"));
 		GetMesh()->SetAnimInstanceClass(Weapon->WeaponAnimClass);
 	}
-	
-	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
-	bool bAttached = CurrentWeapon->AttachToComponent(GetMesh(), Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("AnimClass NULL"));
+	}
+	CurrentWeapon->OnEquip();
 }
 
 void APlayerCharacter::SwitchToPrimary(const FInputActionValue& Value)
@@ -205,7 +207,6 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 
 void APlayerCharacter::FireEnd(const FInputActionValue& Value)
 {
-
 }
 
 void APlayerCharacter::StartReload(const FInputActionValue& Value)
@@ -228,17 +229,17 @@ void APlayerCharacter::ApplyRecoil()
 
 	GetWorldTimerManager().ClearTimer(RecoilRecoveryTimer);
 	GetWorldTimerManager().SetTimer(RecoilRecoveryTimer, this, &APlayerCharacter::RecoverRecoil,
-		0.05f, true);
+	                                0.05f, true);
 }
 
 void APlayerCharacter::RecoverRecoil()
 {
 	FRotator Current = GetControlRotation();
 	FRotator Target = FRotator(Current.Pitch + (Current.Pitch > 0 ? -1.0f : 0.0f),
-		Current.Yaw, Current.Roll);
+	                           Current.Yaw, Current.Roll);
 
 	Controller->SetControlRotation(FMath::RInterpTo(Current, Target,
-		GetWorld()->GetDeltaSeconds(), RecoilRecoverySpeed));
+	                                                GetWorld()->GetDeltaSeconds(), RecoilRecoverySpeed));
 }
 
 void APlayerCharacter::SetAimSwayIntensity(float Intensity)
@@ -248,7 +249,7 @@ void APlayerCharacter::SetAimSwayIntensity(float Intensity)
 	if (AimSwayIntensity > 0.0f)
 	{
 		GetWorldTimerManager().SetTimer(AimSwayTimer, this, &APlayerCharacter::AimSway,
-			0.05f, true);
+		                                0.05f, true);
 	}
 	else
 	{
@@ -272,7 +273,7 @@ void APlayerCharacter::ADSStart(const FInputActionValue& Value)
 {
 	bIsADS = true;
 	GetWorldTimerManager().SetTimer(ADSTimer, this, &APlayerCharacter::UpdateADS,
-		0.016f, true);
+	                                0.016f, true);
 }
 
 void APlayerCharacter::ADSEnd(const FInputActionValue& Value)
@@ -284,12 +285,12 @@ void APlayerCharacter::UpdateADS()
 {
 	float DeltaTime = GetWorld()->GetDeltaSeconds();
 	float TargetFOV = bIsADS ? ADSFOV : DefaultFOV;
-	
-	float CurrentFOV = FPSCamera -> FieldOfView;
-	float NewFOV = FMath::FInterpTo(CurrentFOV, TargetFOV,DeltaTime,ADSSpeed);
+
+	float CurrentFOV = FPSCamera->FieldOfView;
+	float NewFOV = FMath::FInterpTo(CurrentFOV, TargetFOV, DeltaTime, ADSSpeed);
 	FPSCamera->SetFieldOfView(NewFOV);
-	
-	if (!bIsADS && FMath::IsNearlyEqual(CurrentFOV, NewFOV,0.1f))
+
+	if (!bIsADS && FMath::IsNearlyEqual(CurrentFOV, NewFOV, 0.1f))
 	{
 		GetWorldTimerManager().ClearTimer(ADSTimer);
 	}
