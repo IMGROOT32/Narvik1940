@@ -29,7 +29,8 @@ void APlayerCharacter::MeshSet()
 	ArmsMesh->SetupAttachment(FPSCamera);
 	ArmsMesh->bCastDynamicShadow = false;
 	ArmsMesh->CastShadow = false;
-	GetMesh()->SetOwnerNoSee(false);
+	ArmsMesh->SetOnlyOwnerSee(true);
+	GetMesh()->SetOwnerNoSee(true);
 }
 
 void APlayerCharacter::MovementSet()
@@ -160,8 +161,8 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 
 	CurrentWeapon = Weapon;
 
-	FAttachmentTransformRules Rules(EAttachmentRule::KeepRelative, true);
-	bool bAttached = CurrentWeapon->AttachToComponent(GetMesh(), Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
+	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
+	CurrentWeapon->AttachToComponent(ArmsMesh, Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
 	
 	if (Weapon->WeaponAnimClass)
 	{
@@ -207,6 +208,10 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 
 void APlayerCharacter::FireEnd(const FInputActionValue& Value)
 {
+	if (AWeaponSMG* SMG = Cast<AWeaponSMG>(CurrentWeapon))
+	{
+		SMG->StopFire();
+	}
 }
 
 void APlayerCharacter::StartReload(const FInputActionValue& Value)
