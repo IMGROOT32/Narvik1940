@@ -10,7 +10,6 @@
 APlayerCharacter::APlayerCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
 	CameraSet();
 	MeshSet();
 	MovementSet();
@@ -58,6 +57,7 @@ void APlayerCharacter::BeginPlay()
 		Params.Instigator = this;
 		SecondaryWeapon = GetWorld()->SpawnActor<AWeaponBase>(SecondaryWeaponClass, Params);
 	}
+	
 	if (PrimaryWeapon)
 	{
 		EquipWeapon(PrimaryWeapon);
@@ -162,16 +162,11 @@ void APlayerCharacter::EquipWeapon(AWeaponBase* Weapon)
 	CurrentWeapon = Weapon;
 
 	FAttachmentTransformRules Rules(EAttachmentRule::SnapToTarget, true);
-	CurrentWeapon->AttachToComponent(ArmsMesh, Rules, TEXT("hand_r_socket")); //임시 ArmMesh-> GetMesh
+	CurrentWeapon->AttachToComponent(ArmsMesh, Rules, TEXT("hand_r_socket"));
 	
 	if (Weapon->WeaponAnimClass)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("AnimClass Changed"));
-		GetMesh()->SetAnimInstanceClass(Weapon->WeaponAnimClass);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("AnimClass NULL"));
+		ArmsMesh->SetAnimInstanceClass(Weapon->WeaponAnimClass);
 	}
 	CurrentWeapon->OnEquip();
 }
@@ -199,7 +194,6 @@ void APlayerCharacter::FireStart(const FInputActionValue& Value)
 	if (CurrentWeapon)
 	{
 		if (CurrentWeapon->GetCurrentAmmo() <= 0) return;
-
 		bIsFiring = true;
 		CurrentWeapon->Fire();
 		ApplyRecoil();

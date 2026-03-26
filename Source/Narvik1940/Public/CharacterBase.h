@@ -66,10 +66,19 @@ protected:
 		{EBodyPart::RightLeg, EBodyStatus::Normal}
 	};
 
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float InjuredThredshold = 0.5f;
+	
 	virtual void BeginPlay() override;
+	
+	void UpdateBodyPartStatus(EbodyPart BodyPart);
+	void ApplyInjuryPenalty(EbodyPart BodyPart, EBodyStatus Status);
 
 public:
 	virtual void Tick(float DeltaTime) override;
-	virtual void TakeDamageByPart(FName BodyPart, float Damage);
+	virtual void TakeDamageByPart(EBodyPart BodyPart, float Damage);
 	virtual void OnDead();
+	
+	EBodyStatus GetBodyPartStatus(EbodyPart BodyPart) const;
+	float GetBodyPartHP(EBodyPart BodyPart) const;
 };
