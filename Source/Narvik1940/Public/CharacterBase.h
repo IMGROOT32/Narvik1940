@@ -67,18 +67,18 @@ protected:
 	};
 
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	float InjuredThredshold = 0.5f;
+	float InjuredThreshold = 0.5f;
 	
 	virtual void BeginPlay() override;
 	
-	void UpdateBodyPartStatus(EbodyPart BodyPart);
-	void ApplyInjuryPenalty(EbodyPart BodyPart, EBodyStatus Status);
+	void UpdateBodyPartStatus(EBodyPart BodyPart);
+	void ApplyInjuryPenalty(EBodyPart BodyPart, EBodyStatus Status);
 
 public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void TakeDamageByPart(EBodyPart BodyPart, float Damage);
 	virtual void OnDead();
 	
-	EBodyStatus GetBodyPartStatus(EbodyPart BodyPart) const;
+	EBodyStatus GetBodyPartStatus(EBodyPart BodyPart) const;
 	float GetBodyPartHP(EBodyPart BodyPart) const;
 };
