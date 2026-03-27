@@ -69,6 +69,10 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float InjuredThreshold = 0.5f;
 	
+	UPROPERTY()
+	TMap<EBodyPart, float> BodyPartMaxHP;
+	
+	virtual void OnArmInjury(EBodyPart BodyPart, EBodyStatus Status){}
 	virtual void BeginPlay() override;
 	
 	void UpdateBodyPartStatus(EBodyPart BodyPart);

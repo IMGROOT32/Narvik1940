@@ -14,6 +14,7 @@ ACharacterBase::ACharacterBase()
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
+	BodyPartMaxHP = BodyPartHP;
 }
 
 void ACharacterBase::Tick(float DeltaTime)
@@ -43,27 +44,11 @@ void ACharacterBase::UpdateBodyPartStatus(EBodyPart BodyPart)
 	if (!BodyPartHP.Contains(BodyPart)) return;
 
 	float HP = BodyPartHP[BodyPart];
-	float MaxHP = 0.0f;
+	float MaxHP = BodyPartMaxHP.Contains(BodyPart) ? BodyPartMaxHP[BodyPart] : 1.0f;
 
-	switch (BodyPart)
-	{
-	case EBodyPart::Head: MaxHP = 35.0f;
-		break;
-	case EBodyPart::Chest: MaxHP = 100.0f;
-		break;
-	case EBodyPart::LeftArm: MaxHP = 60.0f;
-		break;
-	case EBodyPart::RightArm: MaxHP = 60.0f;
-		break;
-	case EBodyPart::LeftLeg: MaxHP = 70.0f;
-		break;
-	case EBodyPart::RightLeg: MaxHP = 70.0f;
-		break;
-	}
-	
 	EBodyStatus NewStatus;
-	
-	if (HP<= 0.0f)
+
+	if (HP <= 0.0f)
 	{
 		NewStatus = EBodyStatus::Disabled;
 	}
@@ -73,11 +58,10 @@ void ACharacterBase::UpdateBodyPartStatus(EBodyPart BodyPart)
 	}
 	else
 	{
-			NewStatus = EBodyStatus::Normal;
+		NewStatus = EBodyStatus::Normal;
 	}
-		
+
 	BodyPartStatus[BodyPart] = NewStatus;
-	
 	ApplyInjuryPenalty(BodyPart, NewStatus);
 }
 
@@ -85,6 +69,19 @@ void ACharacterBase::ApplyInjuryPenalty(EBodyPart BodyPart, EBodyStatus Status)
 {
 	switch (BodyPart)
 	{
+	case EBodyPart::LeftArm:
+	case EBodyPart::RightArm:
+		if (Status == EBodyStatus::Disabled)
+		{
+			if (BodyPartStatus[EBodyPart::LeftArm] == EBodyStatus::Disabled&&
+				BodyPartStatus[EBodyPart::RightArm] == EBodyStatus::Disabled)
+			{
+				OnDead();
+			}
+		}
+		OnArmInjury(BodyPart, Status);
+		break;
+		
 	case EBodyPart::LeftLeg:
 	case EBodyPart::RightLeg:
 		if (Status == EBodyStatus::Injured)
@@ -94,7 +91,7 @@ void ACharacterBase::ApplyInjuryPenalty(EBodyPart BodyPart, EBodyStatus Status)
 		else if (Status == EBodyStatus::Disabled)
 		{
 			GetCharacterMovement()->MaxWalkSpeed = CrouchSpeed;
-			
+
 			if (BodyPartStatus[EBodyPart::LeftLeg] == EBodyStatus::Disabled &&
 				BodyPartStatus[EBodyPart::RightLeg] == EBodyStatus::Disabled)
 			{
@@ -102,7 +99,7 @@ void ACharacterBase::ApplyInjuryPenalty(EBodyPart BodyPart, EBodyStatus Status)
 			}
 		}
 		break;
-		
+
 	default:
 		break;
 	}
@@ -110,7 +107,6 @@ void ACharacterBase::ApplyInjuryPenalty(EBodyPart BodyPart, EBodyStatus Status)
 
 void ACharacterBase::OnDead()
 {
-	
 }
 
 EBodyStatus ACharacterBase::GetBodyPartStatus(EBodyPart BodyPart) const
