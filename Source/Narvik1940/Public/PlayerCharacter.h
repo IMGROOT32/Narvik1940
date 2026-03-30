@@ -48,10 +48,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	UInputAction* IA_Reload;
-
-	UPROPERTY(BlueprintReadOnly, Category = "Movement")
-	bool bIsSprinting = false;
-
+	
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	float MovementSpeed = 0.0f;
 
@@ -141,6 +138,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsFiring = false;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Movement")
+	bool bIsSprinting = false;
+	
 	AWeaponBase* GetCurrentWeapon() const { return CurrentWeapon; }
 
 	void SetAimSwayIntensity(float Intensity);

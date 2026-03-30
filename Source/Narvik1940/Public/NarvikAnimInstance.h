@@ -29,6 +29,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Anim")
 	bool bIsReloading = false;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Anim")
+	bool bIsSprinting = false;
 
 private:
 	UPROPERTY()

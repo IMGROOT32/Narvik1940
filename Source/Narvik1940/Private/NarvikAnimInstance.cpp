@@ -11,7 +11,13 @@ void UNarvikAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 	if (!OwnerCharacter)
 	{
+		AActor* OwningActor = GetOwningActor();
+		if (OwningActor)
+		{
 		OwnerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
+		UE_LOG(LogTemp, Warning, TEXT("OwnerCharacter : %s"),
+			OwnerCharacter ? TEXT("Found") : TEXT("NULL"))			
+		}
 	}
 
 	if (!OwnerCharacter) return;
@@ -21,4 +27,5 @@ void UNarvikAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	bIsFiring = OwnerCharacter->bIsFiring;
 	bIsReloading = OwnerCharacter->GetCurrentWeapon() ?
 		OwnerCharacter->GetCurrentWeapon()->GetIsReloading() : false;
+	bIsSprinting = OwnerCharacter->bIsSprinting;
 }
